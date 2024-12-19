@@ -1,7 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
-
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -586,7 +585,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
+  (setq pyvenv-default-virtual-env "/Users/sunjoo/program/jupyter-env") ;; Replace with your venv path
   (setq lsp-go-analyses '((shadow . t)
                           (simplifycompositelit . :json-false)))
   (pyvenv-activate pyvenv-default-virtual-env)
