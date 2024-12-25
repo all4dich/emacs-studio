@@ -594,10 +594,9 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (global-company-mode)
   (spacemacs/set-leader-keys "og" 'company-mode)
+  (go :variables go-backend 'lsp)
   ;; (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
   ;; (pyvenv-activate pyvenv-default-virtual-env)
-  ;;  (setq lsp-go-analyses '((shadow . t)
-  ;;                         (simplifycompositelit . :json-false)))
   ;; (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
   ;; (global-set-key (kbd "<f9>") 'imenu-list)
   ;; (setq imenu-list-position 'right
@@ -608,6 +607,10 @@ before packages are loaded."
   ;; Optionally configure `imenu-list` if not already
   )
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
+(setq lsp-go-analyses '((shadow . t)
+                        (simplifycompositelit . :json-false)))
+(setq lsp-go-gopls-server-path "/Users/sunjoo/go/bin/gopls")
+(setq lsp-go-gopls-server-args '("--remote=auto"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
