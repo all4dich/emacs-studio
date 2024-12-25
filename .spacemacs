@@ -610,6 +610,8 @@ before packages are loaded."
   (setq lsp-clients-clangd-executable "/usr/bin/clangd")
   (setq-default dotspacemacs-configuration-layers
                 '((c-c++ :variables c-c++-backend 'lsp-clangd)))
+  ;; For python
+  (python :variables python-backend 'lsp python-lsp-server 'pyright)
   )
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
 (setq lsp-go-analyses '((shadow . t)
