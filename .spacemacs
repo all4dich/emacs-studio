@@ -262,7 +262,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 18.0
+                               :size 16.0
                                :weight normal
                                :width normal)
 
@@ -434,7 +434,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers `visual
+   dotspacemacs-line-numbers 'visual
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -592,13 +592,13 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
-  (setq lsp-go-analyses '((shadow . t)
-                          (simplifycompositelit . :json-false)))
-  (pyvenv-activate pyvenv-default-virtual-env)
   (global-company-mode)
   (spacemacs/set-leader-keys "og" 'company-mode)
-  (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
+  ;; (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
+  ;; (pyvenv-activate pyvenv-default-virtual-env)
+  ;;  (setq lsp-go-analyses '((shadow . t)
+  ;;                         (simplifycompositelit . :json-false)))
+  ;; (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
   ;; (global-set-key (kbd "<f9>") 'imenu-list)
   ;; (setq imenu-list-position 'right
   ;;       imenu-list-size 40
@@ -607,6 +607,7 @@ before packages are loaded."
   ;; (setq lsp-ui-imenu-kind-position 'left)
   ;; Optionally configure `imenu-list` if not already
   )
+(global-set-key (kbd "<f9>") 'lsp-ui-imenu)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
