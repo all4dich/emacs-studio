@@ -39,7 +39,6 @@ This function should only modify configuration layer settings."
      go
      python
      c-c++
-     bazel
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -609,19 +608,19 @@ before packages are loaded."
   ;; Optionally configure `imenu-list` if not already
   ;; For C/C++ Layers
   (setq lsp-clients-clangd-executable "/usr/bin/clangd")
-  (setq-default dotspacemacs-configuration-layers
-                '((c-c++ :variables c-c++-backend 'lsp-clangd)))
   ;; For python
   (python :variables python-backend 'lsp python-lsp-server 'pyright)
   ;; For Golang
   (go :variables go-backend 'lsp)
+  ;; C/C++
+  (c-c++ :variables c-c++-backend 'lsp-clangd)
   )
+
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
 (setq lsp-go-analyses '((shadow . t)
                         (simplifycompositelit . :json-false)))
 (setq lsp-go-gopls-server-path "/Users/sunjoo/go/bin/gopls")
 (setq lsp-go-gopls-server-args '("--remote=auto"))
-
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
