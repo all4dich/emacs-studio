@@ -32,13 +32,21 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(systemd
+   '(html
+     nginx
+     protobuf
+     systemd
      lua
      javascript
      yaml
      go
+     dap
      python
+     rust
      c-c++
+     cmake
+     json
+     github-copilot
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -263,7 +271,7 @@ It should only modify the values of Spacemacs settings."
    ;; fixed-pitch faces. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("SauceCodePro Nerd Font"
                                :size 16.0
                                :weight normal
                                :width normal)
@@ -596,8 +604,8 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (global-company-mode)
   (spacemacs/set-leader-keys "og" 'company-mode)
-  ;; (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
-  ;; (pyvenv-activate pyvenv-default-virtual-env)
+  (setq pyvenv-default-virtual-env "/Users/sunjoo/program/venv/") ;; Replace with your venv path
+  (pyvenv-activate pyvenv-default-virtual-env)
   ;; (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
   ;; (global-set-key (kbd "<f9>") 'imenu-list)
   ;; (setq imenu-list-position 'right
@@ -607,21 +615,35 @@ before packages are loaded."
   ;; (setq lsp-ui-imenu-kind-position 'left)
   ;; Optionally configure `imenu-list` if not already
   ;; For C/C++ Layers
-  (setq lsp-clients-clangd-executable "/usr/bin/clangd")
+  ;; (setq lsp-clients-clangd-executable "/usr/bin/clangd")
   ;; For python
   (python :variables python-backend 'lsp python-lsp-server 'pyright)
   ;; For Golang
   (go :variables go-backend 'lsp)
   ;; C/C++
-  (c-c++ :variables c-c++-backend 'lsp-clangd)
+  ;; (c-c++ :variables c-c++-backend 'lsp-clangd)
   )
 
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
+(global-set-key (kbd "C-c c a") 'copilot-accept-completion)
+(global-set-key (kbd "C-c c l") 'copilot-accept-completion-by-line)
+(global-set-key (kbd "C-c c w") 'copilot-accept-completion-by-word)
+(global-set-key (kbd "C-c c p") 'copilot-accept-completion-by-paragraph)
+(global-set-key (kbd "C-c p f") 'find-name-dired)
 (setq lsp-go-analyses '((shadow . t)
                         (simplifycompositelit . :json-false)))
 (setq lsp-go-gopls-server-path "/Users/sunjoo/go/bin/gopls")
 (setq lsp-go-gopls-server-args '("--remote=auto"))
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
 
+(defun remove-dos-eol ()
+  "Do not show ^M in files containing mixed UNIX and DOS line endings."
+  (interactive)
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
@@ -636,7 +658,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If there is more than one, they won't work right.
    '(ignored-local-variable-values '((env ("PYTHONPATH" . "./src:./lib"))))
    '(package-selected-packages
-     '(journalctl-mode systemd copilot copilot-chat neotree company-lua lua-mode add-node-modules-path impatient-mode htmlize import-js grizzl js-doc js2-refactor multiple-cursors livid-mode nodejs-repl npm-mode prettier-js skewer-mode js2-mode simple-httpd tern web-beautify apache-mode ansible ansible-doc company-ansible jinja2-mode yaml-mode eat esh-help eshell-prompt-extras eshell-z multi-term multi-vterm xref shell-pop terminal-here vterm blacken code-cells company-anaconda anaconda-mode company counsel-gtags counsel swiper ivy cython-mode dap-mode lsp-docker lsp-treemacs bui yaml ggtags helm-cscope helm-pydoc importmagic epc ctable concurrent deferred live-py-mode lsp-pyright lsp-mode markdown-mode nose pip-requirements pipenv load-env-vars pippel poetry transient py-isort pydoc pyenv-mode pythonic pylookup pytest pyvenv sphinx-doc xcscope yapfify evil-evilified-state holy-mode hybrid-mode ws-butler writeroom-mode winum which-key vundo volatile-highlights vi-tilde-fringe uuidgen undo-fu-session undo-fu treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-demos elisp-def editorconfig dumb-jump drag-stuff dotenv-mode disable-mouse dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+     '(company-web web-completion-data counsel-css emmet-mode helm-css-scss pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode nginx-mode powerline-evil airline-themes ace-jump-helm-line ace-link add-node-modules-path aggressive-indent all-the-icons anaconda-mode ansible ansible-doc apache-mode auto-compile auto-highlight-symbol blacken bui centered-cursor-mode clean-aindent-mode code-cells code-review column-enforce-mode company company-anaconda company-ansible company-lua concurrent copilot copilot-chat counsel counsel-gtags ctable cython-mode dap-mode deferred define-word devdocs diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat editorconfig elisp-def elisp-demos elisp-slime-nav emr epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection evil-easymotion evil-escape evil-evilified-state evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-surround evil-textobj-line evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region eyebrowse fancy-battery flx-ido flycheck-elsa flycheck-package ggtags golden-ratio google-translate grizzl helm-ag helm-comint helm-cscope helm-descbinds helm-make helm-mode-manager helm-org helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref hide-comnt highlight-indentation highlight-numbers highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode import-js importmagic indent-guide info+ inspector ivy jinja2-mode journalctl-mode js-doc js2-mode js2-refactor link-hint live-py-mode livid-mode load-env-vars lorem-ipsum lsp-docker lsp-mode lsp-pyright lsp-treemacs lua-mode macrostep markdown-mode multi-line multi-term multi-vterm multiple-cursors nameless neotree nodejs-repl nose npm-mode open-junk-file org-superstar overseer paradox password-generator pcre2el pip-requirements pipenv pippel poetry popwin prettier-js protobuf-mode protobuf-ts-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv quickrun rainbow-delimiters request restart-emacs shell-pop simple-httpd skewer-mode space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc string-edit-at-point string-inflection swiper symbol-overlay symon systemd term-cursor terminal-here tern toc-org transient treemacs-evil treemacs-icons-dired treemacs-persp treemacs-projectile undo-fu undo-fu-session uuidgen vi-tilde-fringe volatile-highlights vterm vundo web-beautify which-key winum writeroom-mode ws-butler xcscope xref yaml yaml-mode yapfify))
    '(safe-local-variable-values
      '((python-shell-extra-pythonpaths "src")
        (python-shell-interpreter-args . "-i")
