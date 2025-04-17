@@ -602,7 +602,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (pyvenv-activate "/Users/sunjoo/program/venv/")
+  (pyvenv-activate "${HOME}/program/venv/")
   ;; (use-package pyvenv
   ;;   :if (not (package-user-installed? 'pyvenv))
   ;;   :config
@@ -652,6 +652,13 @@ before packages are loaded."
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default copilot-indent-offset 4)
+
+;; (setq insert-directory-program "ls --color=yes -alh --group-directories-first")
+;; (setq insert-directory-program "/opt/homebrew/bin/gls")
+
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
@@ -680,7 +687,9 @@ This function is called at the very end of Spacemacs initialization."
        (python-shell-extra-pythonpaths "/Users/sunjoo/work/nota-github/infra-playbooks/aws/src/main/python")
        (javascript-backend . tide)
        (javascript-backend . tern)
-       (javascript-backend . lsp))))
+       (javascript-backend . lsp)))
+   '(warning-suppress-log-types '((lsp-mode)))
+   '(warning-suppress-types '((copilot copilot-no-mode-indent))))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
