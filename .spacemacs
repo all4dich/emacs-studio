@@ -47,6 +47,7 @@ This function should only modify configuration layer settings."
      cmake
      json
      github-copilot
+     ipython-notebook
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -637,6 +638,7 @@ before packages are loaded."
 (global-set-key (kbd "C-c c a") 'copilot-accept-completion)
 (global-set-key (kbd "C-c c l") 'copilot-accept-completion-by-line)
 (global-set-key (kbd "C-c c w") 'copilot-accept-completion-by-word)
+(global-set-key (kbd "C-<tab>") 'copilot-accept-completion-by-word)
 (global-set-key (kbd "C-c c p") 'copilot-accept-completion-by-paragraph)
 (global-set-key (kbd "C-c p f") 'find-name-dired)
 (setq lsp-go-analyses '((shadow . t)
