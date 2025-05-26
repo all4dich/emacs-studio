@@ -82,13 +82,16 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   ;; dotspacemacs-additional-packages '()
    ;; dotspacemacs-additional-packages
    ;; '((copilot :location (recipe
    ;;                       :fetcher github
    ;;                       :repo "all4dich/copilot.el"
    ;;                       :files ("*.el"))))
-
+   dotspacemacs-additional-packages '(
+                                      ;; other additional packages
+                                      chatgpt-shell
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -633,15 +636,34 @@ before packages are loaded."
   (go :variables go-backend 'lsp)
   ;; C/C++
   ;; (c-c++ :variables c-c++-backend 'lsp-clangd)
-  (setq gptel-default-moide 'org-mode)
-  (gptel-make-gemini
-      "Gemini"
-    :key "AIzaSyD7h3mkxxD3Dpr0f5_EPoQERGN-eBcBuVY"
-    :stream t
-    )
-  (setq gptel-backend "Gemini")
-  (setq gptel-gemini-api-key "AIzaSyD7h3mkxxD3Dpr0f5_EPoQERGN-eBcBuVY")
+  ;; (setq gptel-default-moide 'org-mode)
+  ;; # Case 1
+  ;; (gptel-make-gemini "Gemini" :key "AIzaSyD7h3mkxxD3Dpr0f5_EPoQERGN-eBcBuVY" :stream t)
+  ;; (gptel-backend "Gemini")
+  ;; # Case 2
+  ;; (setq
+  ;;   gptel-model 'gemini-2.0-flash
+  ;;   gptel-backend (gptel-make-gemini "Gemini"
+  ;;                  :key "AIzaSyD7h3mkxxD3Dpr0f5_EPoQERGN-eBcBuVY"
+  ;;                  :stream t
+  ;;   )
+  ;; )
+  ;; # Case 3
+  ;; (
+  ;;  gptel-backend (gptel-make-gemini "Gemini"
+  ;;                  :key "AIzaSyD7h3mkxxD3Dpr0f5_EPoQERGN-eBcBuVY"
+  ;;                  :models "gemini-2.0-flash"
+  ;;                  :stream t
+  ;;                  )
+  ;;  )
+  ;; (setq gptel-gemini-api-key "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   )
+
+;;(setq chatgpt-shell-model-version "gemini-2.5-flash-preview-05-20")
+(setq chatgpt-shell-model-version "gemini-2.0-flash")
+;; (setq chatgpt-shell-google-key "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+(setq chatgpt-shell-google-key (getenv "GEMINI_API_KEY"))
+
 
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
 (global-set-key (kbd "C-c c a") 'copilot-accept-completion)
@@ -684,7 +706,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If there is more than one, they won't work right.
    '(ignored-local-variable-values '((env ("PYTHONPATH" . "./src:./lib"))))
    '(package-selected-packages
-     '(gemini-mode pyvenv-auto company-web web-completion-data counsel-css emmet-mode helm-css-scss pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode nginx-mode powerline-evil airline-themes ace-jump-helm-line ace-link add-node-modules-path aggressive-indent all-the-icons anaconda-mode ansible ansible-doc apache-mode auto-compile auto-highlight-symbol blacken bui centered-cursor-mode clean-aindent-mode code-cells code-review column-enforce-mode company company-anaconda company-ansible company-lua concurrent copilot copilot-chat counsel counsel-gtags ctable cython-mode dap-mode deferred define-word devdocs diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat editorconfig elisp-def elisp-demos elisp-slime-nav emr epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection evil-easymotion evil-escape evil-evilified-state evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-surround evil-textobj-line evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region eyebrowse fancy-battery flx-ido flycheck-elsa flycheck-package ggtags golden-ratio google-translate grizzl helm-ag helm-comint helm-cscope helm-descbinds helm-make helm-mode-manager helm-org helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref hide-comnt highlight-indentation highlight-numbers highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode import-js importmagic indent-guide info+ inspector ivy jinja2-mode journalctl-mode js-doc js2-mode js2-refactor link-hint live-py-mode livid-mode load-env-vars lorem-ipsum lsp-docker lsp-mode lsp-pyright lsp-treemacs lua-mode macrostep markdown-mode multi-line multi-term multi-vterm multiple-cursors nameless neotree nodejs-repl nose npm-mode open-junk-file org-superstar overseer paradox password-generator pcre2el pip-requirements pipenv pippel poetry popwin prettier-js protobuf-mode protobuf-ts-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv quickrun rainbow-delimiters request restart-emacs shell-pop simple-httpd skewer-mode space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc string-edit-at-point string-inflection swiper symbol-overlay symon systemd term-cursor terminal-here tern toc-org transient treemacs-evil treemacs-icons-dired treemacs-persp treemacs-projectile undo-fu undo-fu-session uuidgen vi-tilde-fringe volatile-highlights vterm vundo web-beautify which-key winum writeroom-mode ws-butler xcscope xref yaml yaml-mode yapfify))
+     '(chatgpt-shell gemini-mode pyvenv-auto company-web web-completion-data counsel-css emmet-mode helm-css-scss pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode nginx-mode powerline-evil airline-themes ace-jump-helm-line ace-link add-node-modules-path aggressive-indent all-the-icons anaconda-mode ansible ansible-doc apache-mode auto-compile auto-highlight-symbol blacken bui centered-cursor-mode clean-aindent-mode code-cells code-review column-enforce-mode company company-anaconda company-ansible company-lua concurrent copilot copilot-chat counsel counsel-gtags ctable cython-mode dap-mode deferred define-word devdocs diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat editorconfig elisp-def elisp-demos elisp-slime-nav emr epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection evil-easymotion evil-escape evil-evilified-state evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-surround evil-textobj-line evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region eyebrowse fancy-battery flx-ido flycheck-elsa flycheck-package ggtags golden-ratio google-translate grizzl helm-ag helm-comint helm-cscope helm-descbinds helm-make helm-mode-manager helm-org helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref hide-comnt highlight-indentation highlight-numbers highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode import-js importmagic indent-guide info+ inspector ivy jinja2-mode journalctl-mode js-doc js2-mode js2-refactor link-hint live-py-mode livid-mode load-env-vars lorem-ipsum lsp-docker lsp-mode lsp-pyright lsp-treemacs lua-mode macrostep markdown-mode multi-line multi-term multi-vterm multiple-cursors nameless neotree nodejs-repl nose npm-mode open-junk-file org-superstar overseer paradox password-generator pcre2el pip-requirements pipenv pippel poetry popwin prettier-js protobuf-mode protobuf-ts-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv quickrun rainbow-delimiters request restart-emacs shell-pop simple-httpd skewer-mode space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc string-edit-at-point string-inflection swiper symbol-overlay symon systemd term-cursor terminal-here tern toc-org transient treemacs-evil treemacs-icons-dired treemacs-persp treemacs-projectile undo-fu undo-fu-session uuidgen vi-tilde-fringe volatile-highlights vterm vundo web-beautify which-key winum writeroom-mode ws-butler xcscope xref yaml yaml-mode yapfify))
    '(safe-local-variable-values
      '((eval progn
              (setenv "GOOS" "darwin")
