@@ -631,9 +631,9 @@ before packages are loaded."
   ;; For C/C++ Layers
   ;; (setq lsp-clients-clangd-executable "/usr/bin/clangd")
   ;; For python
-  (python :variables python-backend 'lsp python-lsp-server 'pyright)
+  ;; (python3 :variables python-backend 'lsp python-lsp-server 'pyright)
   ;; For Golang
-  (go :variables go-backend 'lsp)
+  ;; (go :variables go-backend 'lsp)
   ;; C/C++
   ;; (c-c++ :variables c-c++-backend 'lsp-clangd)
   ;; (setq gptel-default-moide 'org-mode)
@@ -659,10 +659,10 @@ before packages are loaded."
   ;; (setq gptel-gemini-api-key "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   )
 
-;;(setq chatgpt-shell-model-version "gemini-2.5-flash-preview-05-20")
-(setq chatgpt-shell-model-version "gemini-2.0-flash")
-;; (setq chatgpt-shell-google-key "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+(setq chatgpt-shell-model-version "gemini-2.5-flash-preview-05-20")
+;;(setq chatgpt-shell-model-version "gemini-2.0-flash")
 (setq chatgpt-shell-google-key (getenv "GEMINI_API_KEY"))
+(setq chatgpt-shell-anthropic-key (getenv "ANTHROPIC_API_KEY"))
 
 
 (global-set-key (kbd "<f9>") 'lsp-ui-imenu)
@@ -706,11 +706,62 @@ This function is called at the very end of Spacemacs initialization."
    ;; If there is more than one, they won't work right.
    '(ignored-local-variable-values '((env ("PYTHONPATH" . "./src:./lib"))))
    '(package-selected-packages
-     '(chatgpt-shell gemini-mode pyvenv-auto company-web web-completion-data counsel-css emmet-mode helm-css-scss pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode nginx-mode powerline-evil airline-themes ace-jump-helm-line ace-link add-node-modules-path aggressive-indent all-the-icons anaconda-mode ansible ansible-doc apache-mode auto-compile auto-highlight-symbol blacken bui centered-cursor-mode clean-aindent-mode code-cells code-review column-enforce-mode company company-anaconda company-ansible company-lua concurrent copilot copilot-chat counsel counsel-gtags ctable cython-mode dap-mode deferred define-word devdocs diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat editorconfig elisp-def elisp-demos elisp-slime-nav emr epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection evil-easymotion evil-escape evil-evilified-state evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-surround evil-textobj-line evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region eyebrowse fancy-battery flx-ido flycheck-elsa flycheck-package ggtags golden-ratio google-translate grizzl helm-ag helm-comint helm-cscope helm-descbinds helm-make helm-mode-manager helm-org helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref hide-comnt highlight-indentation highlight-numbers highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode import-js importmagic indent-guide info+ inspector ivy jinja2-mode journalctl-mode js-doc js2-mode js2-refactor link-hint live-py-mode livid-mode load-env-vars lorem-ipsum lsp-docker lsp-mode lsp-pyright lsp-treemacs lua-mode macrostep markdown-mode multi-line multi-term multi-vterm multiple-cursors nameless neotree nodejs-repl nose npm-mode open-junk-file org-superstar overseer paradox password-generator pcre2el pip-requirements pipenv pippel poetry popwin prettier-js protobuf-mode protobuf-ts-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv quickrun rainbow-delimiters request restart-emacs shell-pop simple-httpd skewer-mode space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc string-edit-at-point string-inflection swiper symbol-overlay symon systemd term-cursor terminal-here tern toc-org transient treemacs-evil treemacs-icons-dired treemacs-persp treemacs-projectile undo-fu undo-fu-session uuidgen vi-tilde-fringe volatile-highlights vterm vundo web-beautify which-key winum writeroom-mode ws-butler xcscope xref yaml yaml-mode yapfify))
+     '(ace-jump-helm-line ace-link add-node-modules-path aggressive-indent
+                          airline-themes all-the-icons anaconda-mode ansible
+                          ansible-doc apache-mode auto-compile
+                          auto-highlight-symbol bind-map blacken bui
+                          centered-cursor-mode chatgpt-shell clean-aindent-mode
+                          code-cells code-review column-enforce-mode company
+                          company-anaconda company-ansible company-lua company-web
+                          concurrent copilot copilot-chat counsel counsel-css
+                          counsel-gtags ctable cython-mode dap-mode deferred
+                          define-word devdocs diminish dired-quick-sort
+                          disable-mouse dotenv-mode drag-stuff dumb-jump eat
+                          editorconfig elisp-def elisp-demos elisp-slime-nav
+                          emmet-mode emr epc esh-help eshell-prompt-extras
+                          eshell-z esqlite eval-sexp-fu evil-anzu evil-args
+                          evil-cleverparens evil-collection evil-easymotion
+                          evil-escape evil-evilified-state evil-exchange
+                          evil-goggles evil-iedit-state evil-indent-plus evil-lion
+                          evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
+                          evil-numbers evil-surround evil-textobj-line evil-tutor
+                          evil-unimpaired evil-visual-mark-mode evil-visualstar
+                          expand-region eyebrowse fancy-battery flx-ido
+                          flycheck-elsa flycheck-package gemini-mode ggtags
+                          golden-ratio google-translate grizzl haml-mode helm-ag
+                          helm-comint helm-cscope helm-css-scss helm-descbinds
+                          helm-make helm-mode-manager helm-org helm-projectile
+                          helm-purpose helm-pydoc helm-swoop helm-themes helm-xref
+                          hide-comnt highlight-indentation highlight-numbers
+                          highlight-parentheses hl-todo holy-mode htmlize
+                          hungry-delete hybrid-mode impatient-mode import-js
+                          importmagic indent-guide info+ inspector ivy jinja2-mode
+                          journalctl-mode js-doc js2-mode js2-refactor link-hint
+                          live-py-mode livid-mode load-env-vars lorem-ipsum
+                          lsp-docker lsp-mode lsp-pyright lsp-treemacs lua-mode
+                          macrostep markdown-mode multi-line multi-term
+                          multi-vterm multiple-cursors nameless neotree nginx-mode
+                          nodejs-repl nose npm-mode open-junk-file org-superstar
+                          overseer paradox password-generator pcre2el
+                          pip-requirements pipenv pippel poetry popwin
+                          powerline-evil prettier-js protobuf-mode
+                          protobuf-ts-mode pug-mode py-isort pydoc pyenv-mode
+                          pylookup pytest pythonic pyvenv pyvenv-auto quickrun
+                          rainbow-delimiters request restart-emacs sass-mode
+                          scss-mode shell-pop simple-httpd skewer-mode slim-mode
+                          space-doc spaceline spacemacs-purpose-popwin
+                          spacemacs-whitespace-cleanup sphinx-doc
+                          string-edit-at-point string-inflection swiper
+                          symbol-overlay symon systemd tagedit term-cursor
+                          terminal-here tern toc-org transient treemacs-evil
+                          treemacs-icons-dired treemacs-persp treemacs-projectile
+                          undo-fu undo-fu-session uuidgen vi-tilde-fringe
+                          volatile-highlights vterm vundo web-beautify
+                          web-completion-data web-mode which-key winum
+                          writeroom-mode ws-butler xcscope xref yaml yaml-mode
+                          yapfify))
    '(safe-local-variable-values
-     '((eval progn
-             (setenv "GOOS" "darwin")
-             (setenv "GOARCH" "arm64")
+     '((eval progn (setenv "GOOS" "darwin") (setenv "GOARCH" "arm64")
              (setenv "GOFLAGS" "-tags=tinygo"))
        (python-shell-extra-pythonpaths "src")
        (python-shell-interpreter-args . "-i")
@@ -719,11 +770,11 @@ This function is called at the very end of Spacemacs initialization."
        (vc-default-patch-addressee . "bug-gnu-emacs@gnu.org")
        (etags-regen-ignores "test/manual/etags/")
        (etags-regen-regexp-alist
-        (("c" "objc")
-         "/[ \11]*DEFVAR_[A-Z_ \11(]+\"\\([^\"]+\\)\"/\\1/" "/[ \11]*DEFVAR_[A-Z_ \11(]+\"[^\"]+\",[ \11]\\([A-Za-z0-9_]+\\)/\\1/"))
-       (python-shell-extra-pythonpaths "/Users/sunjoo/work/nota-github/infra-playbooks/aws/src/main/python")
-       (javascript-backend . tide)
-       (javascript-backend . tern)
+        (("c" "objc") "/[ \11]*DEFVAR_[A-Z_ \11(]+\"\\([^\"]+\\)\"/\\1/"
+         "/[ \11]*DEFVAR_[A-Z_ \11(]+\"[^\"]+\",[ \11]\\([A-Za-z0-9_]+\\)/\\1/"))
+       (python-shell-extra-pythonpaths
+        "/Users/sunjoo/work/nota-github/infra-playbooks/aws/src/main/python")
+       (javascript-backend . tide) (javascript-backend . tern)
        (javascript-backend . lsp)))
    '(warning-suppress-log-types '((lsp-mode)))
    '(warning-suppress-types '((copilot copilot-no-mode-indent))))
